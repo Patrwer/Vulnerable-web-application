@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redirect Example</title>
+</head>
+<body>
+<h1>Redirect to Another URL</h1>
+
+<!-- Formularz do wprowadzenia adresu URL -->
+<form action="/redirect" method="get">
+  <label for="targetUrl">Target URL:</label>
+  <input type="text" id="targetUrl" name="targetUrl" required>
+  <button type="submit">Redirect</button>
+</form>
+
+<!-- Sekcja do wyświetlania komunikatów o błędach lub sukcesach -->
+<div>
+  <p id="errorMessage" style="color: red;"></p>
+</div>
+</body>
+</html>
