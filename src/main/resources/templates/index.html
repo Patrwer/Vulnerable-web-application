@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Security Vulnerabilities</title>
+  <style>
+    body { margin: 2rem; font-family: Arial, sans-serif; }
+    .nav-list { list-style: none; padding: 0; }
+    .nav-list li { margin: 1rem 0; }
+    .nav-list a {
+      text-decoration: none;
+      color: #0066cc;
+      padding: 0.5rem;
+      display: block;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    .nav-list a:hover { background-color: #f0f0f0; }
+  </style>
+</head>
+<body>
+<h1>Security Vulnerabilities</h1>
+<ul class="nav-list">
+  <li><a href="/brokenlogin">Broken Authentication</a></li>
+  <li><a href="/upload">File Upload Vulnerability</a></li>
+  <li><a href="/execute">Remote Code Execution</a></li>
+</ul>
+</body>
+</html>

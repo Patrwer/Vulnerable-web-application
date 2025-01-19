@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>XSS</title>
+    <style>
+        .container { max-width: 800px; margin: auto; padding: 20px; }
+        .form-group { margin-bottom: 15px; }
+        .btn { padding: 10px; background: #007bff; color: white; border: none; }
+        .comment { background: #f8f9fa; padding: 15px; margin: 10px 0; }
+        textarea, input { width: 100%; padding: 8px; margin: 5px 0; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Demo podatności XSS</h2>
+
+    <form th:action="@{/comments}" th:object="${newComment}" method="post">
+        <div class="form-group">
+            <label>Użytkownik:</label>
+            <input type="text" th:field="*{jwtUser}" required/>
+        </div>
+        <div class="form-group">
+            <label>Komentarz:</label>
+            <textarea th:field="*{message}" rows="3" required></textarea>
+        </div>
+        <button type="submit" class="btn">Dodaj komentarz</button>
+    </form>
+
+    <div id="example" class="form-group">
+        <label>Przykład XSS:</label>
+        <input type="text" readonly value='<img src="x" onerror="alert(&#39;XSS Attack!&#39;)"/>'>
+        <button onclick="insertExample()" class="btn">Wstaw przykład</button>
+    </div>
+
+    <h3>Komentarze:</h3>
+    <div class="comment" th:each="comment : ${comments}">
+        <strong th:text="${comment.jwtUser}">User</strong>
+        <div th:utext="${comment.message}">Message</div>
+    </div>
+</div>
+
+<script>
+    function insertExample() {
+        document.querySelector('textarea[name="message"]').value =
+            document.querySelector('#example input').value;
+    }
+</script>
+</body>
+</html>

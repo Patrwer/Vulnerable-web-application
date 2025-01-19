@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>JWT Token</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .error { color: red; }
+        .success { color: green; }
+        button {
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        input {
+            padding: 5px;
+            margin: 5px;
+            width: 200px;
+        }
+        #tokenInfo {
+            word-break: break-all;
+            margin-top: 10px;
+            padding: 10px;
+            background: #f5f5f5;
+        }
+        .user-list {
+            display: none;
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Login</h2>
+    <div>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+    </div>
+    <div id="loginMessage"></div>
+</div>
+
+<div class="container">
+    <h2>Token Operations</h2>
+    <div id="tokenInfo"></div>
+    <button onclick="accessAdmin()">Access Admin Panel</button>
+    <button onclick="decodeToken()">Decode Token</button>
+    <div id="adminMessage"></div>
+</div>
+
+<div class="container user-list" id="userList">
+    <h2>Users List (Admin Only)</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Username</th>
+            <th>Role</th>
+        </tr>
+        </thead>
+        <tbody id="usersTableBody"></tbody>
+    </table>
+</div>
+
+<script>
+    async function login() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        try {
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ username, password })
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                localStorage.setItem('jwt_token', data.token);
+                document.getElementById('loginMessage').innerHTML =
+                    '<span class="success">Login successful!</span>';
+                document.getElementById('tokenInfo').textContent =
+                    `Current token: ${data.token}`;
+                await checkRole();
+            } else {
+                document.getElementById('loginMessage').innerHTML =
+                    `<span class="error">${data.message}</span>`;
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            document.getElementById('loginMessage').innerHTML =
+                '<span class="error">Error occurred during login</span>';
+        }
+    }
+
+    async function accessAdmin() {
+        const token = localStorage.getItem('jwt_token');
+        if (!token) {
+            document.getElementById('adminMessage').innerHTML =
+                '<span class="error">No token found. Please login first.</span>';
+            return;
+        }
+
+        try {
+            const response = await fetch('/api/admin', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            const data = await response.json();
+            document.getElementById('adminMessage').innerHTML =
+                response.ok ?
+                    `<span class="success">${data.message}</span>` :
+                    `<span class="error">${data.message}</span>`;
+        } catch (error) {
+            console.error('Admin access error:', error);
+            document.getElementById('adminMessage').innerHTML =
+                '<span class="error">Error accessing admin panel</span>';
+        }
+    }
+
+    function decodeToken() {
+        const token = localStorage.getItem('jwt_token');
+        if (!token) {
+            document.getElementById('tokenInfo').textContent = 'No token found';
+            return;
+        }
+
+        try {
+            const parts = token.split('.');
+            const payload = JSON.parse(atob(parts[1]));
+            document.getElementById('tokenInfo').innerHTML =
+                `<pre>Decoded payload:\n${JSON.stringify(payload, null, 2)}</pre>`;
+        } catch (error) {
+            console.error('Token decode error:', error);
+            document.getElementById('tokenInfo').textContent = 'Error decoding token';
+        }
+    }
+
+    async function checkRole() {
+        const token = localStorage.getItem('jwt_token');
+        console.log('Checking role with token:', token);
+
+        if (!token) {
+            console.log('No token found');
+            return;
+        }
+
+        try {
+            const response = await fetch('/api/users', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            console.log('Users API response:', response);
+
+            if (response.ok) {
+                const users = await response.json();
+                console.log('Users data:', users);
+                displayUsers(users);
+            } else {
+                console.log('Failed to fetch users:', await response.text());
+            }
+        } catch (error) {
+            console.error('Check role error:', error);
+        }
+    }
+
+    function displayUsers(users) {
+        const userList = document.getElementById('userList');
+        const tbody = document.getElementById('usersTableBody');
+        tbody.innerHTML = '';
+
+        users.forEach(user => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${user.username}</td>
+                <td>${user.role}</td>
+            `;
+            tbody.appendChild(row);
+        });
+
+        userList.style.display = 'block';
+    }
+
+    document.addEventListener('DOMContentLoaded', checkRole);
+</script>
+</body>
+</html>

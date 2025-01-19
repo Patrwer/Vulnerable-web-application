@@ -2,28 +2,24 @@ package com.pracaInzysnierka.pracainzynierska.xss;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class CommentController {
+    private List<Comment> comments = new ArrayList<>();
 
-private List<Comment> comments = new ArrayList<>();
+    @GetMapping("/comments")
+    public String getComments(Model model) {
+        model.addAttribute("comments", comments);
+        model.addAttribute("newComment", new Comment());
+        return "xss/xss";
+    }
 
-
-@GetMapping("/comments")
-public String getCommentsPage(Model model) {
-    model.addAttribute("comments", comments);
-    return "comments.html";
-}
-@PostMapping("/comments")
-    public String addComment(@RequestParam String user, @RequestParam String comment) {
-    comments.add(new Comment(user, comment));
-    return "redirect:/comments";
-}
-
+    @PostMapping("/comments")
+    public String addComment(@ModelAttribute Comment comment) {
+        comments.add(comment);
+        return "redirect:/comments";
+    }
 }
