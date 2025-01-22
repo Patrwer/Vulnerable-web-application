@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <title>Security Vulnerabilities</title>
   <style>
     body { margin: 2rem; font-family: Arial, sans-serif; }
@@ -14,15 +15,20 @@
       border: 1px solid #ddd;
       border-radius: 4px;
     }
-    .nav-list a:hover { background-color: #f0f0f0; }
+    .nav-list a:hover { background-color: #f5f5f5; }
   </style>
 </head>
 <body>
-<h1>Security Vulnerabilities</h1>
-<ul class="nav-list">
-  <li><a href="/brokenlogin">Broken Authentication</a></li>
-  <li><a href="/upload">File Upload Vulnerability</a></li>
-  <li><a href="/execute">Remote Code Execution</a></li>
-</ul>
+<div class="container mt-5">
+  <h1 class="text-center mb-5">Security Vulnerabilities</h1>
+  <ul class="nav-list">
+    <li class="w-25 mx-auto"><a class="text-xl-center" href="/brokenlogin">Broken Authentication</a></li>
+    <li class="w-25 mx-auto"><a class="text-xl-center" href="/upload">File Upload Vulnerability</a></li>
+    <li class="w-25 mx-auto"><a class="text-xl-center" href="/rce">Remote Code Execution</a></li>
+    <li class="w-25 mx-auto"><a class="text-xl-center" href="/sqlinjection">Sql Injection</a></li>
+    <li class="w-25 mx-auto"><a class="text-xl-center" href="/unsecuredjwttokens">Unsecured JWT Tokens</a></li>
+    <li class="w-25 mx-auto"><a class="text-xl-center" href="/comments">XSS</a></li>
+  </ul>
+</div>
 </body>
 </html>

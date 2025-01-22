@@ -1,4 +1,4 @@
-package com.pracaInzysnierka.pracainzynierska.rce;
+package com.example.pracainzynierska.rce;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,21 +14,35 @@ public class CommandController {
 
     @GetMapping("/rce")
     public String showExecutePage(){
-        return "rce";
+        return "rce/rce";
     }
 
     @PostMapping("/rce")
-    public String executeCommand(@RequestParam String command, Model model){
+    public String executeCommand(@RequestParam String command, Model model) {
         StringBuilder output = new StringBuilder();
 
         try {
-            Process process = Runtime.getRuntime().exec(command);
+            ProcessBuilder processBuilder = new ProcessBuilder();
+            if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+                processBuilder.command("cmd.exe", "/c", command);
+            } else {
+                processBuilder.command("sh", "-c", command);
+            }
+
+            Process process = processBuilder.start();
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
             String line;
             while ((line = reader.readLine()) != null) {
                 output.append(line).append("<br>");
             }
+
+            // Dodanie obsługi błędów
+            BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+            while ((line = errorReader.readLine()) != null) {
+                output.append("Error: ").append(line).append("<br>");
+            }
+
         } catch (Exception e) {
             output.append("Error: ").append(e.getMessage());
         }

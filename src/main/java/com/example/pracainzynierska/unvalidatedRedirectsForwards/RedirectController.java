@@ -1,4 +1,4 @@
-package com.pracaInzysnierka.pracainzynierska.unvalidatedRedirectsForwards;
+package com.example.pracainzynierska.unvalidatedRedirectsForwards;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

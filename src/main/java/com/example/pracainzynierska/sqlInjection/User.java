@@ -1,4 +1,4 @@
-package com.pracaInzysnierka.pracainzynierska.sqlInjection;
+package com.example.pracainzynierska.sqlInjection;
 
 
 import jakarta.persistence.Entity;

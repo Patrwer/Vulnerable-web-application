@@ -17,7 +17,7 @@
     <form th:action="@{/comments}" th:object="${newComment}" method="post">
         <div class="form-group">
             <label>Użytkownik:</label>
-            <input type="text" th:field="*{jwtUser}" required/>
+            <input type="text" th:field="*{user}" required/>
         </div>
         <div class="form-group">
             <label>Komentarz:</label>
@@ -34,7 +34,7 @@
 
     <h3>Komentarze:</h3>
     <div class="comment" th:each="comment : ${comments}">
-        <strong th:text="${comment.jwtUser}">User</strong>
+        <strong th:text="${comment.user}">User</strong>
         <div th:utext="${comment.message}">Message</div>
     </div>
 </div>

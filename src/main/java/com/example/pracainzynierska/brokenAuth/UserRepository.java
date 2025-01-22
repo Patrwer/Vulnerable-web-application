@@ -1,4 +1,4 @@
-package com.pracaInzysnierka.pracainzynierska.brokenAuth;
+package com.example.pracainzynierska.brokenAuth;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;

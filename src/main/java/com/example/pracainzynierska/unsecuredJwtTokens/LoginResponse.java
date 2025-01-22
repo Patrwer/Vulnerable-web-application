@@ -1,4 +1,4 @@
-package com.pracaInzysnierka.pracainzynierska.unsecuredJwtTokens;
+package com.example.pracainzynierska.unsecuredJwtTokens;
 
 import lombok.Data;
 import org.springframework.stereotype.Component;

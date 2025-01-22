@@ -1,4 +1,4 @@
-package com.pracaInzysnierka.pracainzynierska.unsecuredJwtTokens;
+package com.example.pracainzynierska.unsecuredJwtTokens;
 
 import jakarta.persistence.*;
 import lombok.Data;

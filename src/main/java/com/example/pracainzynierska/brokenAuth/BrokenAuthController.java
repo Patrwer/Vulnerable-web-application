@@ -1,4 +1,4 @@
-package com.pracaInzysnierka.pracainzynierska.brokenAuth;
+package com.example.pracainzynierska.brokenAuth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

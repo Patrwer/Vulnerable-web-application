@@ -1,4 +1,4 @@
-package com.pracaInzysnierka.pracainzynierska.brokenAuth;
+package com.example.pracainzynierska.brokenAuth;
 
 
 public class User {
@@ -25,4 +25,6 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
 }

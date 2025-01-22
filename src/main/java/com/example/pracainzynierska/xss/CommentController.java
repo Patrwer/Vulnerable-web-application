@@ -1,4 +1,4 @@
-package com.pracaInzysnierka.pracainzynierska.xss;
+package com.example.pracainzynierska.xss;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

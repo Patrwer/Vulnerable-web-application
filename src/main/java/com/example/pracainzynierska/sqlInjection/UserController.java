@@ -1,4 +1,4 @@
-package com.pracaInzysnierka.pracainzynierska.sqlInjection;
+package com.example.pracainzynierska.sqlInjection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;

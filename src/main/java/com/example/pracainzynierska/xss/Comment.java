@@ -1,4 +1,4 @@
-package com.pracaInzysnierka.pracainzynierska.xss;
+package com.example.pracainzynierska.xss;
 
 class Comment {
     private String user;
